@@ -1,0 +1,116 @@
+{% extends 'layout.html' %} {% block content %}
+
+<div class="menu">
+    <h1 class="title" id="occ_title">
+        OpenCL Online Compiler
+    </h1>
+    <a href="https://www.intel.ca/content/www/ca/en/software/programmable/sdk-for-opencl/overview.html">
+         <p class="caption_intel" > Powered by Intel® FPGA SDK for OpenCL&trade; </p>
+    </a>
+    <p class="new" id="new">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <i class="glyphicon glyphicon-plus"></i>
+        <span>New</span>
+    </p>
+    <p class="open" id="open" >
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <i class="glyphicon glyphicon-floppy-open"></i>
+        <span>Open</span> 
+    </p>
+    <p class="save" id="save" >
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <i class="glyphicon glyphicon-floppy-save"></i>
+        <span>Save</span>
+    </p>
+
+    <p class="exec" id="exec" >
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <i class="glyphicon glyphicon-play"></i>
+            <span>Execute OpenCL host</span>
+    </p>
+
+    <p class="rtl_compile" id="rtl_compile" >
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <i class="glyphicon glyphicon-paperclip"></i>
+            <span>FPGA Report</span>
+    </p>
+
+
+</div>
+
+
+<div class="codeArea" id="codeArea">
+    
+    <div class="left">
+    
+        <!--header>
+            <input type="text" value="" id="markTitle" placeholder="请输入文章标题">
+        </header>
+        <nav>
+            <div class="handleArea">
+                <abbr title="粗体" id="boldSet">
+                    <i class="iconfont icon-icon-test"></i>
+                </abbr>
+                <abbr title="斜体" id="xieSet">
+                    <i class="iconfont icon-xieti"></i>
+                </abbr>
+                <abbr title="超链接" id="httpSet">
+                    <i class="iconfont icon-iconchaolianjie"></i>
+                </abbr>
+                <abbr title="图片" id="imgSet">
+                    <i class="iconfont icon-font29"></i>
+                </abbr>
+                <abbr title="表格" id="tableSet">
+                    <i class="iconfont icon-biaoge"></i>
+                </abbr>
+            </div>
+            <div class="saveArea">
+                <abbr title="预览" id="previewSet" data-show="true">
+                    <i class="iconfont icon-shuanglan"></i>
+                </abbr>
+                <abbr title="全屏" id="fullScreen">
+                    <i class="iconfont icon-icwindowzoom48px"></i>
+                </abbr>
+                <abbr title="退出全屏" id="exitFullScreen" style="display:none;">
+                    <i class="iconfont icon-tuichuquanping"></i>
+                </abbr>
+                <abbr title="保存" id="saveMd">
+                    <i class="iconfont icon-baocun"></i>
+                </abbr>
+            </div>
+        </nav-->
+
+    <!--begin code mirror -->
+    <link rel="stylesheet" href="/public/codemirror-5.31.0/lib/codemirror.css"/>
+    <script src="/public/codemirror-5.31.0/lib/codemirror.js"></script>
+    <script src="/public/codemirror-5.31.0/clike.js"></script>
+    <script src="/public/codemirror-5.31.0/mode/groovy/groovy.js"></script>
+    <script src="/public/codemirror-5.31.0/mode/clike/clike.js"></script>
+    <link rel="stylesheet" href="/public/codemirror-5.31.0/theme/dracula.css"/>
+
+    <link rel="stylesheet" href="/public/codemirror-5.31.0/addon/fold/foldgutter.css"/>
+    <script src="/public/codemirror-5.31.0/addon/fold/foldcode.js"></script>
+    <script src="/public/codemirror-5.31.0/addon/fold/foldgutter.js"></script>
+    <script src="/public/codemirror-5.31.0/addon/fold/brace-fold.js"></script>
+    <script src="/public/codemirror-5.31.0/addon/fold/comment-fold.js"></script>
+    <script src="/public/codemirror-5.31.0/addon/edit/matchbrackets.js"></script>
+
+
+    <article>
+        <!-- begin code -->
+        <textarea class="form-control" id="codeBlock" name="codeBlock"></textarea>
+        <!-- end code-->
+        <script src="/public/js/codeblock.js"></script>
+    </articles>
+
+    </div>
+
+    <div class="right">
+    </div>
+</div>
+
+<script src="/public/js/highlight.pack.js"></script>
+<script src="/public/js/FileSaver.js"></script>
+
+<script src="/public/js/index.js"></script>
+{% endblock %}

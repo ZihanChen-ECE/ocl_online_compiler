@@ -1,0 +1,309 @@
+html,
+body,
+p,
+a,
+button,
+input,
+img
+{
+    margin: 0;
+    padding: 0;
+}
+
+.menu * {
+    margin: 0;
+    padding: 0;
+}
+
+.menu a,
+abbr {
+    text-decoration: none;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    color: #545454;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.mr10 {
+    margin-right: 10px;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.none {
+    display: none;
+}
+
+.menu {
+    width: 25%;
+    height: 100%;
+    background-color: #3b5998;
+    overflow-y: auto;
+}
+
+.editMark {
+    width: calc(100% - 200px);
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+}
+
+.glyphicon {
+    font-size: 13px;
+}
+
+/* the menu column */
+.menu .title {
+    font-family: "Arial", Arial, Sans-serif;
+    width: 100%;
+    margin-top: 40px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.85);
+    cursor: pointer;
+    user-select: none;
+}
+.caption_intel {
+    font-family: "Arial", Arial, Sans-serif;
+    width: 100%;
+    margin-top: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    font-size: 13px;
+    letter-spacing: 2px;
+    user-select: none;
+}
+.caption_intel:hover{
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.menu .new, .menu .save, .menu .open, .menu .exec, .menu .rtl_compile {
+    font-family: "Arial", Arial, Sans-serif;
+    width: 100%;
+    margin-top: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    font-size: 16px;
+    letter-spacing: 2px;
+    user-select: none;
+}
+
+.menu .new:hover, .menu .save:hover, .menu .open:hover, .menu .exec:hover, .menu .rtl_compile:hover {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.menu .mdList {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.menu ul,
+.menu li,
+.menu ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu .mdList li {
+    width: 100%;
+    height: 50px;
+    padding: 0 20px;
+    border-left: 5px solid transparent;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.menu .mdList li:hover {
+    background: #666666;
+}
+
+.menu .mdList li.active {
+    background: #666666;
+    border-left-color: #f3422f;
+}
+
+.menu .mdList li .mdTitle {
+    flex: 1;
+}
+
+
+/* codeArea */
+.codeArea {
+    width: 55%;
+    height: 60%;
+    margin-left: 0.3px;
+
+}
+.codeArea .left {
+    width: 100%;
+    height: 100%;
+    margin-left: 0.3px;
+}
+
+.codeArea .right {
+    width: calc(50% - 1px);
+    height: 100%;
+    border-left: solid 1px #ddd;
+}
+
+
+.codeArea .left header {
+    width: 100%;
+    height: 80px;
+}
+
+.codeArea .left header input {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    outline: none;
+    padding: 0 15px;
+    box-sizing: border-box;
+    font-size: 24px;
+}
+
+
+.codeArea .left nav {
+    width: 100%;
+    height: 50px;
+    background: #dedede;
+    color: #545454;
+    padding: 0 20px;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+.codeArea .left nav div {
+    height: 100%;
+    float: left;
+}
+
+.codeArea .left nav div abbr {
+    display: inline-block;
+    width: 40px;
+    height: 100%;
+    position: relative;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+}
+
+.codeArea .left nav div abbr i {
+    font-size: 20px;
+}
+
+.codeArea .left nav div.saveArea {
+    float: right;
+}
+
+.codeArea .left article {
+    width: 100%;
+    height: calc(100% - 80px - 50px);
+}
+
+.codeArea .left codeBlock{
+    width: 100%;
+    height: calc(100% - 80px - 50px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 0;
+    resize: none;
+    font-size: 10px;
+    line-height: 34px;
+    font-weight: normal;
+    outline: none;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif;
+}
+
+.codeArea .right {
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #fcfaf2;
+}
+
+.codeArea .right::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+
+/* table */
+
+table {
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table td,
+table th {
+    border: 1px solid #ddd;
+    padding: 5px 10px 5px 7px;
+}
+
+table th {
+    font-size: 1.1em;
+    background-color: #efefef;
+}
+
+table tr:nth-of-type(2n) td {
+    background-color: #efefef;
+}
+
+
+/* blockquote */
+
+blockquote {
+    background: #efefef;
+    padding: 0;
+    margin: 10px;
+}
+
+blockquote p {
+    padding: 10px 20px;
+    word-wrap: break-word;
+    border-left: solid 5px #ccc;
+}
+
+/* img */
+
+img{
+    display: block;
+    margin: 10px 0;
+}
+
+/* 全屏 */
+
+#codeArea:-webkit-full-screen{
+    width: 100%;
+}
+#codeArea:-moz-full-screen{
+    width: 100%;
+}
+#codeArea:-ms-fullscreen{
+    width: 100%;
+}
