@@ -12,13 +12,9 @@
         matchBrackets: true,	//括号匹配
         //readOnly: true,        //只读
     });
-
-    var positionInfo = document.getElementById("codeBlock").getBoundingClientRect();
-    var height = positionInfo.height;
-    var width = positionInfo.width;
-    var off_w = width = document.getElementById('codeBlock').offsetWidth
-
-    //editor.setSize('500px','300px');     //reset the size of the code block
-
+    var height = $('#codeBlock').height();
+    height = Math.floor(height) + 'px';
+    editor.setSize(null, height);     //reset the size of the code block
+    
     editor.setValue("");    // clear the code block
     // editor.setValue(obj.scriptCode);    // assign the code block

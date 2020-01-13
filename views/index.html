@@ -2,112 +2,141 @@
 
 <div class="menu">
     <h1 class="title" id="occ_title">
-        OpenCL Online Compiler
+        OpenCL/SYCL Online Compiler
     </h1>
+    <a >
+        <p class="caption_intel"> online compiler of Open Computing Language (OpenCL) and C++ Single-source Heterogeneous Programming for OpenCL (SYCL) for Heterogeneous Computing</p>
+    </a>
     <a href="https://www.intel.ca/content/www/ca/en/software/programmable/sdk-for-opencl/overview.html">
          <p class="caption_intel" > Powered by Intel® FPGA SDK for OpenCL&trade; </p>
     </a>
-    <p class="new" id="new">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <i class="glyphicon glyphicon-plus"></i>
-        <span>New</span>
+    <p class="signup" id="signup">
+        Sign Up
     </p>
-    <p class="open" id="open" >
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <i class="glyphicon glyphicon-floppy-open"></i>
-        <span>Open</span> 
-    </p>
-    <p class="save" id="save" >
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <i class="glyphicon glyphicon-floppy-save"></i>
-        <span>Save</span>
-    </p>
-
-    <p class="exec" id="exec" >
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-            <i class="glyphicon glyphicon-play"></i>
-            <span>Execute OpenCL host</span>
-    </p>
-
-    <p class="rtl_compile" id="rtl_compile" >
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-            <i class="glyphicon glyphicon-paperclip"></i>
-            <span>FPGA Report</span>
+    <p class="login" id="login">
+        Login
     </p>
 
 
 </div>
-
+<script language="javascript">
+    function jumpto(x){
+    
+    if (document.form2.jumpmenu.value != "null") {
+        document.location.href = x
+        }
+    }
+</script>
 
 <div class="codeArea" id="codeArea">
-    
-    <div class="left">
-    
-        <!--header>
-            <input type="text" value="" id="markTitle" placeholder="请输入文章标题">
-        </header>
-        <nav>
-            <div class="handleArea">
-                <abbr title="粗体" id="boldSet">
-                    <i class="iconfont icon-icon-test"></i>
-                </abbr>
-                <abbr title="斜体" id="xieSet">
-                    <i class="iconfont icon-xieti"></i>
-                </abbr>
-                <abbr title="超链接" id="httpSet">
-                    <i class="iconfont icon-iconchaolianjie"></i>
-                </abbr>
-                <abbr title="图片" id="imgSet">
-                    <i class="iconfont icon-font29"></i>
-                </abbr>
-                <abbr title="表格" id="tableSet">
-                    <i class="iconfont icon-biaoge"></i>
-                </abbr>
-            </div>
-            <div class="saveArea">
-                <abbr title="预览" id="previewSet" data-show="true">
-                    <i class="iconfont icon-shuanglan"></i>
-                </abbr>
-                <abbr title="全屏" id="fullScreen">
-                    <i class="iconfont icon-icwindowzoom48px"></i>
-                </abbr>
-                <abbr title="退出全屏" id="exitFullScreen" style="display:none;">
-                    <i class="iconfont icon-tuichuquanping"></i>
-                </abbr>
-                <abbr title="保存" id="saveMd">
-                    <i class="iconfont icon-baocun"></i>
-                </abbr>
-            </div>
-        </nav-->
+   <div class="menuRegion">
+       <div class="button newButton" id="new">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <i class="glyphicon glyphicon-plus"></i>
+            new
+        </div> 
+        <div class="button openButton" id="open">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <i class="glyphicon glyphicon-floppy-open"></i>
+            open
+        </div>
+        <div class="button saveButton" id="save">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <i class="glyphicon glyphicon-floppy-save"></i>
+            save
+        </div>
+        <div class="button runButton" id="exec">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <i class="glyphicon glyphicon-play"></i>
+            run
+        </div> 
+        <div class="button rptButton" id="fpga-report">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <i class="glyphicon glyphicon-paperclip"></i>
+            FPGA report
+        </div>
+        <div class="language"> Language </div>
+        <div class = "dropdown">
+        <form name="form2">
+                <select name="jumpmenu" id="jumpmenuid" onChange="jumpto(document.form2.jumpmenu.options[document.form2.jumpmenu.options.selectedIndex].value)">
+                <option>Host Language</option>
+                <option value="#" id="sycl_cpp">SYCL C++</option>
+                <option value="#" id="sycl_cpp">OpenCL C++</option>
+                <option value="#" id="sycl_cpp">C++</option>
+                </select>
+        </form>
+        </div>
+   </div>
 
-    <!--begin code mirror -->
-    <link rel="stylesheet" href="/public/codemirror-5.31.0/lib/codemirror.css"/>
-    <script src="/public/codemirror-5.31.0/lib/codemirror.js"></script>
-    <script src="/public/codemirror-5.31.0/clike.js"></script>
-    <script src="/public/codemirror-5.31.0/mode/groovy/groovy.js"></script>
-    <script src="/public/codemirror-5.31.0/mode/clike/clike.js"></script>
-    <link rel="stylesheet" href="/public/codemirror-5.31.0/theme/dracula.css"/>
+   <div>
+        <ul class="nav nav-tabs">
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <li class="active" id="main.cpp">
+            <a href="#default_src_page">main.cpp <i class="close" id="close-icon"></i></a> 
+          </li>
+        </ul>
+   </div>
 
-    <link rel="stylesheet" href="/public/codemirror-5.31.0/addon/fold/foldgutter.css"/>
-    <script src="/public/codemirror-5.31.0/addon/fold/foldcode.js"></script>
-    <script src="/public/codemirror-5.31.0/addon/fold/foldgutter.js"></script>
-    <script src="/public/codemirror-5.31.0/addon/fold/brace-fold.js"></script>
-    <script src="/public/codemirror-5.31.0/addon/fold/comment-fold.js"></script>
-    <script src="/public/codemirror-5.31.0/addon/edit/matchbrackets.js"></script>
+    <div>
+        <!--begin code mirror -->
+        <link rel="stylesheet" href="/public/codemirror-5.31.0/lib/codemirror.css"/>
+        <script src="/public/codemirror-5.31.0/lib/codemirror.js"></script>
+        <script src="/public/codemirror-5.31.0/clike.js"></script>
+        <script src="/public/codemirror-5.31.0/mode/groovy/groovy.js"></script>
+        <script src="/public/codemirror-5.31.0/mode/clike/clike.js"></script>
+        <link rel="stylesheet" href="/public/codemirror-5.31.0/theme/xq-dark.css"/>
 
+        <link rel="stylesheet" href="/public/codemirror-5.31.0/addon/fold/foldgutter.css"/>
+        <script src="/public/codemirror-5.31.0/addon/fold/foldcode.js"></script>
+        <script src="/public/codemirror-5.31.0/addon/fold/foldgutter.js"></script>
+        <script src="/public/codemirror-5.31.0/addon/fold/brace-fold.js"></script>
+        <script src="/public/codemirror-5.31.0/addon/fold/comment-fold.js"></script>
+        <script src="/public/codemirror-5.31.0/addon/edit/matchbrackets.js"></script>
 
-    <article>
-        <!-- begin code -->
-        <textarea class="form-control" id="codeBlock" name="codeBlock"></textarea>
-        <!-- end code-->
+        <textarea class="codeBlock" id="codeBlock"></textarea>
         <script src="/public/js/codeblock.js"></script>
-    </articles>
-
     </div>
 
-    <div class="right">
+    <div class="menuRegion">
+        <p class="cmdArgs">Command line arguments</p>
+        <textarea class="cmdArgsBlock" id="cmdArgsBlock"></textarea>
     </div>
+
+    <div class="resultsArea">
+        
+    </div>
+
 </div>
+
+<a href="#login-account"> 
+    <div id = "loginform">
+        <form method = "post" action = "/login-form">
+        <p>Login with a registered email address</p>
+        <!--input type = "image" id = "close_login" src = "/images/close.png"-->
+        <i class="close" id="close_login"></i>
+        <input type = "text" id = "email_addr_login" placeholder = "Email address" name = "email_addr">
+        <input type = "password" id = "password_login" name = "password" placeholder = "***">
+        <input type = "submit" id = "dologin" value = "Login" >
+        <li class="signup" id="signup"> Not registered? Click here to sign up</p>
+        </form>
+        
+    </div>
+</a>
+
+<a href="#signup-account"> 
+    <div id = "signupform">
+        <form method = "post" action = "/signup-form">
+        <p>Signup with a valid email address</p>
+        <!--input type = "image" id = "close_login" src = "/images/close.png"-->
+        <i class="close" id="close_signup"></i>
+        <input type = "text" id = "email_addr_signup" name = "email_addr" placeholder = "Email address">
+        <input type = "password" id = "password_signup" name = "password_signup" placeholder = "password">
+        <input type = "password" id = "confirm_password" name = "confirm_password" placeholder = "confirm password">
+        <input type = "submit" id = "dosignup" value = "Sign up" >
+        </form>
+        
+    </div>
+</a>
 
 <script src="/public/js/highlight.pack.js"></script>
 <script src="/public/js/FileSaver.js"></script>

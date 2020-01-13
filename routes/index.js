@@ -1,10 +1,11 @@
 const express = require('express');
 const fs = require('fs');
 const router = express.Router();
-
 const marked = require('marked');
-
 let titleArr = ['HelloWorld'];
+let session = require('express-session');
+const bodyParser = require('body-parser');
+
 
 marked.setOptions({
     renderer: new marked.Renderer(),
@@ -16,6 +17,42 @@ marked.setOptions({
     smartLists: true,
     smartypants: false
 });
+
+router.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
+router.use(bodyParser.urlencoded({extended : true}));
+router.use(bodyParser.json());
+
+router.get('/home', function(request, response) {
+	if (request.session.loggedin) {
+		response.send('Welcome back, ' + request.session.username + '!');
+	} else {
+		response.send('Please login to view this page!');
+	}
+	response.end();
+});
+
+
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "zihanchen",
+    password: "qwertczh",
+    database: "occlogin"
+});
+
+con.connect(function(err){
+    if(!err) {
+        console.log("Database is connected");
+    } else {
+        console.log("Error while connecting with database");
+    }
+});
+    
 
 router.get('/', (req, res) => {
     let data = {
@@ -103,5 +140,90 @@ router.post('/choice',(req,res) =>{
 
     res.json(data);
 });
+
+// execute the host
+router.post('/execute-host',(req,res) => {
+    let src = req.body.src;
+    let args = req.body.args;
+    let language = req.body.language;
+    let result = "compile result:\nCompile success\n";
+    console.log("value:");
+    console.log(src);
+    console.log(args);
+    console.log(language);
+    res.send(result);
+});
+
+
+router.post('/signup-form', (req, res) => {
+    console.log(req.body);
+	let email_addr = req.body.email_addr;
+    let password = req.body.password_signup;
+    let table_name = "accounts";
+	if (email_addr && password) {
+        //con.connect(function(err) {
+        //    if (err) {
+        //        console.log(err);
+        //        return res.sendStatus(400);
+        //    }
+        //    let insert_sql = "INSERT INTO "+ table_name +" (" + email_addr + ", " + password + ", " + email_addr + ") \
+        //                      SELECT 'email' FROM DUAL \
+        //                      WHERE NOT EXISTS \
+        //                      (SELECT * FROM " + table_name + " WHERE email='" + email_addr + "');";
+        //    console.log(insert_sql);
+        //});
+        //con.end();
+
+        con.query('SELECT * FROM accounts WHERE email = ?', [email_addr], function(error, results, fields) {
+            if (results.length > 0) {
+                req.session.loggedin = true;
+                req.session.email_addr = email_addr;
+                console.log("account found!");
+                res.redirect('/');
+            } else {
+                console.log('could insert!');
+                con.query('INSERT INTO accounts (username, password, email) VALUE (?, ?, ? )', [email_addr, password, email_addr], function(error, results, fields) {
+                    if (error) {
+                        console.log("failed to insert");
+                    }
+                });
+                res.redirect('/');
+            }
+        });
+
+	} else {
+        res.send('Please enter email_addr and Password!');
+        //res.redirect('/');
+		res.end();
+    }
+    console.log("check1");
+});
+
+router.post('/login-form', (req, res) => {
+    console.log(req.body);
+	let email_addr = req.body.email_addr;
+    let password = req.body.password;
+    let table_name = "accounts";
+	if (email_addr && password) {
+
+        con.query('SELECT * FROM accounts WHERE email = ? AND password = ?', [email_addr, password], function(error, results, fields) {
+            if (results.length > 0) {
+                req.session.loggedin = true;
+                req.session.email_addr = email_addr;
+                console.log("successfully logged in");
+                res.redirect('/');
+            } else {
+                console.log('Incorrect email_addr and/or Password!');
+                res.redirect('/');
+            }
+        });
+
+	} else {
+		res.send('Please enter email_addr and Password!');
+		res.end();
+	}
+});
+
+
 
 module.exports = router;

@@ -22,5 +22,5 @@ app.use('/',index);
 const server = app.listen(8000,() => {
     let host = server.address().address;
     let port = server.address().port;
-    console.log(`连接成功,http://${host}:${port}`);
+    console.log(`connected,http://${host}:${port}`);
 });

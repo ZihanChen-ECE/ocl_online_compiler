@@ -1,35 +1,30 @@
 hljs.initHighlightingOnLoad();
 
-$(document).ready(function () {
+// a global dict that stores the script of each tab
+var content_dict = {};
 
-    // create the a new src code
-    // will rewrite the existing one
-    $('#new').on('click', function () {
-        refresh_editor("");
-    });
+$(document).ready(function () {
 
     // open the file from local
     $('#open').on('click', function() {
-        if (editor.getValue()) {
-            var input = document.createElement('input');
-            input.type = 'file';
-            input.onchange = e => { 
-                // getting a hold of the file reference
-                var file = e.target.files[0]; 
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.onchange = e => {
+            // getting a hold of the file reference
+            var file = e.target.files[0]; 
 
-                // setting up the reader
-                var reader = new FileReader();
-                reader.readAsText(file,'UTF-8');
+            // setting up the reader
+            var reader = new FileReader();
+            reader.readAsText(file,'UTF-8');
 
-                // here we tell the reader what to do when it's done reading...
-                reader.onload = readerEvent => {
-                    var content = readerEvent.target.result; // this is the content!
-                    //console.log( content );
-                    refresh_editor(content);
-                }
+            // here we tell the reader what to do when it's done reading...
+            reader.onload = readerEvent => {
+                var content = readerEvent.target.result; // this is the content!
+                refresh_editor(content);
             }
-            input.click();
-        }     
+        }
+        input.click();
+    
     });
 
     // save the file to local
@@ -50,18 +45,49 @@ $(document).ready(function () {
             var blob = new Blob([new Uint8Array(bytes)]);
             return blob;
           }
-        var _congtent = editor.getValue();
+        var _content = editor.getValue();
         // might need the pre-browser attr set to "chose the path before downloading"
         saveAs( data2blob(_content), "opencl_host.cpp" );
     });
 
     // execute the src (creating the POST and send to router)
     $('#exec').on('click', function() {
-        var 
-    
-    
-    }
+        var _src=editor.getValue(); // source code
+        var _args=$("#cmdArgsBlock").val(); // compile args
+        var _language=$("#jumpmenuid option:selected").text(); // language selected
+        $.post('/execute-host',
+        {
+            src:_src,
+            args:_args,
+            language:_language
+        },
+        function (data, status) {
+            console.log(data);
+            console.log(status);
+            let display_data = data.replace(/\n/g, "<br />");
+            // render data to the result area
+            $(".resultsArea").html(display_data);
+        });
+    });
 
+    $('#fpga-report').on('click', function() {
+        var _src=editor.getValue();
+        $.post('/fpga-report',
+        {
+            _src:_src
+        },
+        function (data, status) {
+            console.log(data);
+            console.log(status);
+        });
+    });
+
+    $(".dropdown").on("hide.bs.dropdown", function(){
+        $(".btn").html('SYCL C++ <span class="caret"></span>');
+        });
+        $(".dropdown").on("show.bs.dropdown", function(){
+        $(".btn").html('SYCL C++ <span class="caret caret-up"></span>');
+    });
 
     $(document).on('mouseenter','.mdList .deleteMd', function () {
         $(this).parents('li').css({opacity: 0.8});
@@ -83,8 +109,111 @@ $(document).ready(function () {
         },'json');
     });
 
-    //功能按键 粗体设置
+    $('body').on('click','#new',function(event){
+        var index = $('.nav-tabs li').length+1;
+        var filename = 'main_'+index+'_.cpp';
+        // get the prompt for input
+        var fname_in = prompt("new file name", "main");
+        var is_bad = 0;
+        if (fname_in != null) {
+            // handle the .cpp as input
+            var re = /(?:\.([^.]+))?$/;
+            var ext = re.exec(fname_in)[1];
+            if (ext != '.cpp') {
+                fname_in += '.cpp';
+            }
+            filename = fname_in;
 
+            var curTabName = $('.nav-tabs > li.active').text();
+            console.log("current tab name: " + curTabName);
+            event.preventDefault();//stop browser to take action for clicked anchor
+
+            var active_tab_selector = $('.nav-tabs > li.active > a').attr('href');					
+
+            //find actived navigation and remove 'active' css
+            var actived_nav = $('.nav-tabs > li.active');
+            actived_nav.removeClass('active');
+
+            //hide displaying tab content
+            $(active_tab_selector).removeClass('active');
+            $(active_tab_selector).addClass('hide');
+
+            var newTabName = filename;
+
+            $('.nav-tabs').append('<li class="active" id='+filename+'><a href="#tab'+index+'">'+filename+'<i class="close" id="close-icon"></i></a></li>');
+            $('.ui-page').append('<section id="tab'+index+'" class="tab-content active">Tab '+index+' content</section>');
+        
+            $( "#popupLogin" ).popup( "close" );
+            $('a[href="#tab'+index+'"]').click();
+
+
+            alternate_tab_content(curTabName, newTabName);
+        } else {
+            alert("Invalid input, please provide a valid file name");
+        }
+    });
+    
+    $('.body').on('click', '#dosignup', function(event){
+        let pwd = $('#password_signup').val();
+        let pwd_confirm = $('#confirm_password').val();
+        console.log('pwd: ' + pwd + 'pwd_confirm: '+pwd_confirm);
+    })
+
+    $('.nav-tabs').on('click','li > a',function(event){
+        // get the content from curTabName and overwrite the content
+        event.preventDefault();//stop browser to take action for clicked anchor
+
+        //get displaying tab content jQuery selector
+        var active_tab_selector = $('.nav-tabs > li.active > a').attr('href');					
+
+        //find actived navigation and remove 'active' css
+        var actived_nav = $('.nav-tabs > li.active');
+        actived_nav.removeClass('active');
+        var curTabName = actived_nav.text();
+
+        //add 'active' css into clicked navigation
+        $(this).parents('li').addClass('active');
+
+        //hide displaying tab content
+        $(active_tab_selector).removeClass('active');
+        $(active_tab_selector).addClass('hide');
+
+        //show target tab content
+        var target_tab_selector = $(this).attr('href');
+        $(target_tab_selector).removeClass('hide');
+        $(target_tab_selector).addClass('active');
+        var newTabName =  $('.nav-tabs > li.active').text();
+
+        // update the editor content
+        alternate_tab_content(curTabName, newTabName);
+
+    });
+
+    $(".nav-tabs").on('click', '.close', (event) =>{
+        // get the content from curTabName and overwrite the content
+        event.preventDefault();//stop browser to take action for clicked anchor
+        // refresh the editor
+        editor.setValue("");
+        $('li.active').remove();
+    });
+
+    $("#login").click(function(){
+        showpopup(1);
+    });
+
+    $("#signup").click(function(){
+        showpopup(0);
+    });
+
+    $("#close_login").click(function(){
+        hidepopup(1);
+    });
+
+    $("#close_signup").click(function(){
+        hidepopup(0);
+    });
+    //功能按键 粗体设置
+/*
     $('#boldSet').on('click', function () {
         var str = $('#editArea').val();
         $('#editArea').val(str + '## text ## \n');
@@ -198,7 +327,7 @@ $(document).ready(function () {
     $('#saveMd').on('click', function () {
         transformMd();
     });
-
+*/
 });
 
 function refresh_editor(new_content) {
@@ -212,10 +341,48 @@ function refresh_editor(new_content) {
         } else {
             console.log("Do not refresh the src code");
         }
+    } else {
+        editor.setValue(new_content);
+    }
+}
+
+function alternate_tab_content(curTabName, newTabName) {
+
+    var curContent = editor.getValue();
+    content_dict[curTabName] = curContent;
+    var newContent = "";
+    if (newTabName in content_dict) {
+        newContent = content_dict[newTabName];
+    }
+    // render the editor
+    editor.setValue(newContent);
+}
+
+function showpopup(login_flag)
+{
+    if (login_flag == 1) {
+        $("#loginform").fadeIn();
+        $("#loginform").css({"visibility":"visible","display":"block"});
+    } else {
+        $("#signupform").fadeIn();
+        $("#signupform").css({"visibility":"visible","display":"block"});
+    }
+    $.get('/');
+}
+
+function hidepopup(login_flag)
+{
+    if (login_flag == 1) {  
+        $("#loginform").fadeOut();
+        $("#loginform").css({"visibility":"hidden","display":"none"});
+    } else {
+        $("#signupform").fadeOut();
+        $("#signupform").css({"visibility":"hidden","display":"none"});
     }
 
 }
 
+/*
 //实时保存解析文档
 function transformMd() {
     var markdown = $('#editArea').val();
@@ -231,6 +398,7 @@ function transformMd() {
         oldTitle: oldTitle,
         change: change
     }, function (res) {
+        // it is already async
         $('.right').html(res.html);
         $('#markTitle').attr('data-old', title);
         $('pre code').each(function (i, block) {
@@ -265,3 +433,5 @@ function exitFullScreen() {
         document.mozCancelFullScreen();
     }
 }
+*/
+
