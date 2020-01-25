@@ -5,7 +5,7 @@ const marked = require('marked');
 let titleArr = ['HelloWorld'];
 let session = require('express-session');
 const bodyParser = require('body-parser');
-
+let execSync = require('child_process').execSync;
 
 marked.setOptions({
     renderer: new marked.Renderer(),
@@ -147,11 +147,43 @@ router.post('/execute-host',(req,res) => {
     let args = req.body.args;
     let language = req.body.language;
     let result = "compile result:\nCompile success\n";
-    console.log("value:");
-    console.log(src);
-    console.log(args);
-    console.log(language);
-    res.send(result);
+    let date_ob = new Date();
+    let second = date_ob.getSeconds();
+    let base = "file";
+    let filename = base+"_"+second+".cpp";
+    let temppath = "./tempfile";
+    let srcfile = temppath + "/" + filename;
+    let execfile = temppath + "/" + "exec_" + second + ".exe";
+    let outlog = temppath + "/" + "output_" + second + ".log";
+    let return_data = "";
+    fs.writeFileSync(srcfile, src , function(err) {
+        if(err) {
+            return console.log(err);
+        }
+    });
+
+    console.log("Successfully saved file "+ srcfile);
+
+    // execute the code
+    let compile_cmd = "./routes/exec.sh " + srcfile + " " + execfile;
+    let exec_cmd = execfile + " > " + outlog;
+    let _ret = execSync(compile_cmd);
+    _ret = execSync(exec_cmd);
+    console.log("return code: "+_ret);
+    
+    //read the log and return to the frontend
+    
+    try {
+        return_data = fs.readFileSync(outlog, 'utf8');
+        console.log(return_data);    
+    } catch(e) {
+        console.log('Error:', e.stack);
+    }
+    //console.log("value:");
+    //console.log(src);
+    //console.log(args);
+    //console.log(language);
+    res.send(return_data);
 });
 
 
