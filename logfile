@@ -1,0 +1,16 @@
+./tempfile/file_37.cpp:4:7: error: no member named 'cut' in namespace 'std'; did you mean 'cout'?
+        std::cut<<"hello world123"<<std::endl;
+        ~~~~~^~~
+             cout
+/usr/lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0/iostream:61:18: note: 'cout' declared here
+  extern ostream cout;          /// Linked to standard output
+                 ^
+1 error generated.
+./tempfile/file_37.cpp:4:7: error: no member named 'cut' in namespace 'std'; did you mean 'cout'?
+        std::cut<<"hello world123"<<std::endl;
+        ~~~~~^~~
+             cout
+/usr/lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0/iostream:61:18: note: 'cout' declared here
+  extern ostream cout;          /// Linked to standard output
+                 ^
+1 error generated.

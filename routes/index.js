@@ -165,14 +165,36 @@ router.post('/execute-host',(req,res) => {
     console.log("Successfully saved file "+ srcfile);
 
     // execute the code
-    let compile_cmd = "./routes/compile.sh " + srcfile + " " + execfile + "";
+    let compile_cmd = "./routes/compile.sh " + srcfile + " " + execfile + " " + outlog;
     let exec_cmd = "./routes/exec.sh " + execfile + " " + outlog;
-    let _ret = execSync(compile_cmd);
-    _ret = execSync(exec_cmd);
-    console.log("return code: "+_ret);
-    
+    try{
+        let _ret = execSync(compile_cmd, function (error, stdout, stderr) {
+            console.log("error: ", error);
+            console.log("stdout: ", stdout);
+            console.log("stderr: ", stderr);
+        
+            console.log('BLE initialization DONE');
+            puts(error, stdout, stderr);
+        });
+    } catch(e) {
+        return_data = fs.readFileSync(outlog, 'utf8');
+        fs.unlinkSync(srcfile);
+        fs.unlinkSync(outlog);
+        res.send(return_data)
+        return
+    }
+    try {
+        _ret = execSync(exec_cmd);
+    } catch(e) {
+        return_data = fs.readFileSync(outlog, 'utf8');
+        fs.unlinkSync(srcfile);
+        fs.unlinkSync(execfile);
+        fs.unlinkSync(outlog);
+        res.send(return_data)
+        return
+    }
+
     //read the log and return to the frontend
-    
     try {
         return_data = fs.readFileSync(outlog, 'utf8');
         console.log(return_data);    
@@ -189,6 +211,7 @@ router.post('/execute-host',(req,res) => {
       }
     
     res.send(return_data);
+    return
 });
 
 
