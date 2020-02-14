@@ -165,8 +165,8 @@ router.post('/execute-host',(req,res) => {
     console.log("Successfully saved file "+ srcfile);
 
     // execute the code
-    let compile_cmd = "./routes/exec.sh " + srcfile + " " + execfile;
-    let exec_cmd = execfile + " > " + outlog;
+    let compile_cmd = "./routes/compile.sh " + srcfile + " " + execfile + "";
+    let exec_cmd = "./routes/exec.sh " + execfile + " " + outlog;
     let _ret = execSync(compile_cmd);
     _ret = execSync(exec_cmd);
     console.log("return code: "+_ret);
@@ -179,10 +179,15 @@ router.post('/execute-host',(req,res) => {
     } catch(e) {
         console.log('Error:', e.stack);
     }
-    //console.log("value:");
-    //console.log(src);
-    //console.log(args);
-    //console.log(language);
+    try {
+        fs.unlinkSync(srcfile);
+        fs.unlinkSync(execfile);
+        fs.unlinkSync(outlog);
+        //file removed
+      } catch(err) {
+        console.error(err)
+      }
+    
     res.send(return_data);
 });
 
@@ -228,7 +233,6 @@ router.post('/signup-form', (req, res) => {
         //res.redirect('/');
 		res.end();
     }
-    console.log("check1");
 });
 
 router.post('/login-form', (req, res) => {
@@ -245,8 +249,8 @@ router.post('/login-form', (req, res) => {
                 console.log("successfully logged in");
                 res.redirect('/');
             } else {
-                console.log('Incorrect email_addr and/or Password!');
-                res.redirect('/');
+                res.send('Incorrect email_addr and/or Password!');
+                res.end();
             }
         });
 
@@ -255,7 +259,6 @@ router.post('/login-form', (req, res) => {
 		res.end();
 	}
 });
-
 
 
 module.exports = router;
