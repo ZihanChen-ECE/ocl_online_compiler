@@ -40,8 +40,8 @@ var mysql = require('mysql');
 
 var con = mysql.createConnection({
     host: "localhost",
-    user: "zihanchen",
-    password: "qwertczh",
+    user: "hc",
+    password: "hcpd",
     database: "occlogin"
 });
 
@@ -61,6 +61,7 @@ router.get('/', (req, res) => {
     res.render('index',data);
 });
 
+/* let the user save the notes with markdown. FE not completed yet... */
 router.post('/save', (req, res) => {
     //fetch data
     let title = req.body.title;
@@ -84,7 +85,7 @@ router.post('/save', (req, res) => {
                             titleArr.splice(index, 1, title);
                         }
                     })
-                    console.log('删除成功!');
+                    console.log('delete successully!');
                 });
             } else {
                 titleArr.splice(0, 0, title);
@@ -99,7 +100,7 @@ router.post('/save', (req, res) => {
     writeStream.end();
 
     writeStream.on('finish', () => {
-        console.log('写入完成');
+        console.log('finish write');
     });
 
     //pass data to respond
