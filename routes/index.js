@@ -62,7 +62,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/save', (req, res) => {
-    //获取数据
+    //fetch data
     let title = req.body.title;
     let markdown = req.body.markdown;
     let change = Number.parseInt(req.body.change);
@@ -93,7 +93,7 @@ router.post('/save', (req, res) => {
         }
     });
 
-    //写入文件
+    //write in data
     let writeStream = fs.createWriteStream('./docs/' + title + '.md');
     writeStream.write(markdown);
     writeStream.end();
@@ -102,46 +102,30 @@ router.post('/save', (req, res) => {
         console.log('写入完成');
     });
 
-    //传递数据
+    //pass data to respond
     let data = {};
     data.html = marked(html);
     res.json(data);
 });
 
-//删除文件
-router.post('/delete',(req,res) => {
-    let title = req.body.title;
-    fs.unlink('./docs/' + title + '.md', (err) => {
-        if (err) {
-            return console.error(err);
-        }
-        titleArr.forEach((item, index) => {
-            if (item === title) {
-                titleArr.splice(index, 1);
-            }
-        })
-        console.log('删除成功!');
-    });
 
-    let data = {success:1}
-    res.json(data);
-});
-
-//查看文件
-router.post('/choice',(req,res) =>{
-    let title = req.body.title;
-    let text = fs.readFileSync('./docs/'+title+'.md','utf-8');
-    let html = `# ${title} # \n ${text}`;
-
-    let data = {
-        text:text,
-        html:marked(html)
-    }
-
-    res.json(data);
-});
-
-// execute the host
+/* execute the host code */
+/* basic logic:
+    1. The req shoud contain the filename, file content. 
+       The file name would be the md5(uname + rand_16char) + cpp_name
+       If not logged in, the uname will be replaced by a rand_16char string
+       The content will be the code
+    
+    2. The res should contain the result, including the compile
+       log and execution output
+    
+    3. The compiler is dpcpp CPU, a script is used for the jit execution
+       (needs the env var)
+       
+    4. The execution mode will be async. this means the server could handle the 
+       request aynchronizely (for better parallelization), and the host shall wait
+       for the callback, or we can call it blocked async.
+*/
 router.post('/execute-host',(req,res) => {
     let src = req.body.src;
     let args = req.body.args;
@@ -221,18 +205,6 @@ router.post('/signup-form', (req, res) => {
     let password = req.body.password_signup;
     let table_name = "accounts";
 	if (email_addr && password) {
-        //con.connect(function(err) {
-        //    if (err) {
-        //        console.log(err);
-        //        return res.sendStatus(400);
-        //    }
-        //    let insert_sql = "INSERT INTO "+ table_name +" (" + email_addr + ", " + password + ", " + email_addr + ") \
-        //                      SELECT 'email' FROM DUAL \
-        //                      WHERE NOT EXISTS \
-        //                      (SELECT * FROM " + table_name + " WHERE email='" + email_addr + "');";
-        //    console.log(insert_sql);
-        //});
-        //con.end();
 
         con.query('SELECT * FROM accounts WHERE email = ?', [email_addr], function(error, results, fields) {
             if (results.length > 0) {

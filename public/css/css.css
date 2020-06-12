@@ -80,6 +80,7 @@ body {
     font-family: "Arial", Arial, Sans-serif;
     width: 100%;
     margin-top: 10px;
+    margin-bottom: 30px;
     color: rgba(255, 255, 255, 0.9);
     cursor: pointer;
     padding: 10px 20px;

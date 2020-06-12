@@ -2,18 +2,18 @@
 
 <div class="menu">
     <h1 class="title" id="occ_title">
-        OpenCL/SYCL Online Compiler
+        SYCL Online Compiler
     </h1>
     <a >
-        <p class="caption_intel"> An online compiler for Open Computing Language (OpenCL) and C++ Single-source Heterogeneous Programming for OpenCL (SYCL)</p>
+        <p class="caption_intel"> An online compiler for C++ Single-source Heterogeneous Programming for OpenCL (SYCL)</p>
     </a>
-    <a href="https://software.intel.com/en-us/oneapi">
-         <p class="caption_intel" > Powered by Intel® oneAPI Toolkits </p>
+    <a href="#">
+         <p class="caption_intel" > Try heterogeneous computing now! </p>
     </a>
-    <a href="https://software.intel.com/en-us/oneapi/documentation">
+    <a href="https://zhuanlan.zhihu.com/c_1248197336700145664">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <i class="glyphicon glyphicon-link" style="color:white"></i>
-        <p class="caption_intel" style="display:inline"> Intel® oneAPI Tutorials </p>
+        <p class="caption_intel" style="display:inline"> HC Tutorial (Chinese) </p>
         <p></p>
     </a>
    <a href="http://codeplaysoftware.github.io/iwocl2015/">
@@ -22,7 +22,7 @@
         <p class="caption_intel" style="display:inline"> SYCL&trade; Tutorials </p>
         <p></p>
     </a>  
-   <a href="https://software.intel.com/en-us/articles/opencl-tutorials">
+   <a href="https://www.khronos.org/opencl/resources">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <i class="glyphicon glyphicon-link" style="color:white"></i>
         <p class="caption_intel" style="display:inline"> OpenCL&trade; Tutorials </p>
@@ -67,18 +67,12 @@
             <i class="glyphicon glyphicon-play"></i>
             run
         </div> 
-        <div class="button rptButton" id="fpga-report">
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-            <i class="glyphicon glyphicon-paperclip"></i>
-            FPGA report
-        </div>
         <div class="language"> Language </div>
         <div class = "dropdown">
         <form name="form2">
                 <select name="jumpmenu" id="jumpmenuid" onChange="jumpto(document.form2.jumpmenu.options[document.form2.jumpmenu.options.selectedIndex].value)">
-                <option>Host Language</option>
-                <option value="#" id="sycl_cpp">SYCL C++</option>
-                <option value="#" id="sycl_cpp">OpenCL C++</option>
+                <option value="#" id="sycl_cpp">SYCL      </option>
+                <option value="#" id="sycl_cpp">OpenCL</option>
                 <option value="#" id="sycl_cpp">C++</option>
                 </select>
         </form>
